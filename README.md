@@ -1,6 +1,6 @@
 <!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
 <p align="center">
-    <img alt="Tap Auth Logo" src="public/images/logo.png" width="60" />
+    <img alt="Tap Auth Logo" src="src/images/logo.png" width="60" />
 </p>
 <h1 align="center">
   Tap Authentication
