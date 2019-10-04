@@ -22,4 +22,4 @@ Make sure all your work is done on a seperate branch, when you have completed a 
 
 ## Development Stack
 
-This site is build using React & Gatsby
+This site is built with React & Gatsby
