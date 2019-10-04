@@ -6,7 +6,10 @@
   Tap Authentication
 </h1>
 
-This project is a prototype authentication solution for those with visual impairments.
+This project is a prototype authentication solution for those with visual impairments. Initial devlopment will create a tap based input system that operates under two possible authentication systems:
+
+1. A sequence of tap inputs
+2. A sequence of tap inputs within a chosen vibration pattern
 
 ## Running the project
 
