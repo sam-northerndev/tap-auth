@@ -1,0 +1,26 @@
+.container {
+  background-color: #fbeec1;
+  text-align: center;
+  margin: 0px;
+  border-bottom: solid 1px hsla(0, 0%, 0%, 0.2);
+}
+
+.contentContainer {
+  padding: 16px;
+}
+
+.title {
+  margin: 0px;
+  margin-top: 16px;
+  color: #000000;
+  font-size: 32px;
+  line-height: 1.25;
+  line-height: 1;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.logo {
+  width: 100px;
+  margin-bottom: 0px;
+}

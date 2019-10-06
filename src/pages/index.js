@@ -1,13 +1,24 @@
 import React from "react"
+// Components
+import Layout from "../components/Layout"
+import Header from "../components/Header.js"
 import { Link } from "gatsby"
+//Styles
 
 const IndexPage = () => (
-  <div>
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <Link to="/page-2/">Go to page 2</Link>
-  </div>
+  <Layout>
+    <Header />
+    <div className="content">
+      <p>Authentication for the visually impaired.</p>
+
+      <hr className={"divider"} />
+      <div className={"card"}>
+        <p>This will contain info about the project</p>
+      </div>
+      <Link to="/page-2/">Group A</Link>
+      <Link to="/page-2/">Group B</Link>
+    </div>
+  </Layout>
 )
 
 export default IndexPage
