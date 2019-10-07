@@ -3,6 +3,16 @@ body {
   background-color: #feffff;
 }
 
+footer {
+  width: 100%;
+  position: absolute;
+  bottom: 16px;
+}
+
+.description {
+  margin-bottom: 16px;
+}
+
 .content {
   display: flex;
   flex-direction: column;
@@ -12,15 +22,40 @@ body {
 
 .divider {
   width: 100%;
+  margin: 1px;
 }
 
 .card {
   display: flex;
   border-radius: 6px;
   padding: 8px;
-  margin-bottom: 16px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  text-align: center;
 
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.24), 0 4px 4px 0 rgba(0, 0, 0, 0.12);
   background-color: #f7f9fb;
   justify-content: center;
+}
+
+.loginButton {
+  text-decoration: none;
+  color: inherit;
+  background-image: none;
+  padding: 16px;
+  text-shadow: none;
+  background-color: hsl(47, 88%, 87%);
+  transition: background-color 0.3s ease-in-out;
+
+  border-radius: 6px;
+  border: solid 1px hsla(0, 0%, 0%, 0.2);
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.24), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+}
+
+.loginButton:hover {
+  background-color: hsl(47, 88%, 83%);
+}
+
+.footerText {
+  text-align: center;
 }

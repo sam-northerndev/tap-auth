@@ -9,15 +9,24 @@ const IndexPage = () => (
   <Layout>
     <Header />
     <div className="content">
-      <p>Authentication for the visually impaired.</p>
+      <p className={"description"}>Authentication for the visually impaired.</p>
 
       <hr className={"divider"} />
       <div className={"card"}>
-        <p>This will contain info about the project</p>
+        <p>
+          This Prototype was developed for research purposes. Data stored in
+          this project will not contain any identifying information, only data
+          collected for tap entries will be recorded.
+        </p>
       </div>
-      <Link to="/page-2/">Group A</Link>
-      <Link to="/page-2/">Group B</Link>
+      <Link className={"loginButton"} to="/login/">
+        Continue to Login
+      </Link>
     </div>
+    <footer>
+      <hr className={"divider"} />
+      <p className="footerText">Created By CSCI 4169 Group 11</p>
+    </footer>
   </Layout>
 )
 
