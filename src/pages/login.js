@@ -1,5 +1,6 @@
 import React, { Fragment } from "react"
 import classNames from "classnames"
+import { navigate } from "gatsby"
 
 //Icons
 import {
@@ -36,8 +37,12 @@ class Login extends React.Component {
 
   onReset = () => this.setState({ setRegister: false, setLogin: false })
 
-  onLogin = () => {
+  onLogin = event => {
+    event.preventDefault()
     //Handle the login logic
+
+    // Navigate
+    navigate("/authenticate")
   }
 
   //Input Handlers

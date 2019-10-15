@@ -39,12 +39,20 @@
   max-width: 75%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+@media only screen and (max-width: 480px) {
+  .infoContainer {
+    max-width: 100%;
+  }
 }
 
 .loginButton {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 200px;
 }
 
 .loginOrBack {
