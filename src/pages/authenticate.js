@@ -84,7 +84,9 @@ class Authenticate extends React.Component {
 
     return (
       <Layout>
-        <Header collapsed title={authenticating ? "" : "Authentication"} />
+        {!authenticating && (
+          <Header collapsed title={authenticating ? "" : "Authentication"} />
+        )}
         {authenticating ? (
           routeA ? (
             <TapAuth />

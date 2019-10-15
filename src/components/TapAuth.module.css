@@ -1,41 +1,58 @@
 .touchCanvas {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
 
-  width: calc(100vw -6px);
+  width: 100vw;
   height: 500px;
-  margin: 6px;
 
   background-color: #b5c352;
-  opacity: 0.9;
   animation: pulse 2s infinite;
   box-shadow: 0 0 0 rgba(204, 169, 44, 0.4);
   animation: pulse 2s infinite;
-  border-radius: 6px;
 }
 
 @keyframes pulse {
   0% {
-    opacity: 0.9;
     -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
     box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
   }
   70% {
-    opacity: 1;
     -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
     box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
   }
   100% {
-    opacity: 0.9;
     -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
     box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
   }
 }
 
+@keyframes pulse-opacity {
+  0% {
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+.fullPageCanvas {
+  order: reverse;
+  position: absolute;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column-reverse;
+}
+
 .canvasIcon {
   width: 100px;
   height: 100px;
+  animation: pulse-opacity infinite 2s;
 }
 
 .buttonContainer {
@@ -61,4 +78,18 @@
 
 .homeIcon {
   cursor: pointer;
+}
+
+.returnHome {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.7;
+  animation: pulse-opacity infinite 2s;
+}
+
+.returnHome:hover {
+  opacity: 1;
 }
