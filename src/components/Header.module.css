@@ -24,3 +24,25 @@
   width: 100px;
   margin-bottom: 0px;
 }
+
+.collapsedLogo {
+  width: 50px;
+  margin-bottom: 0px;
+  margin-right: 16px;
+}
+
+.collapsedContainer {
+  display: flex;
+  padding: 8px 16px;
+  align-items: center;
+}
+
+.collapsedTitle {
+  margin: 0px;
+  text-transform: none;
+}
+
+.centerTitle {
+  margin-top: 32px;
+  text-align: center;
+}

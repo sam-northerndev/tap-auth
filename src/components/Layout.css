@@ -4,9 +4,60 @@ body {
 }
 
 footer {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   bottom: 16px;
 }
+
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+/*
+input styling starts here ------
+*/
+input {
+  outline: none;
+  margin: 0 0.25rem;
+  min-width: 125px;
+  border: 1px solid #eee;
+  border-left: 6px solid;
+  border-radius: 5px;
+  transition: border-color 0.5s ease-out;
+}
+input:optional {
+  border-left-color: #999;
+}
+input:required {
+  border-left-color: #b5c352;
+}
+input:invalid {
+  border-left-color: salmon;
+}
+
+.tallInput {
+  height: 40px;
+  width: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/*
+end input styling --------------
+*/
 
 .description {
   margin-bottom: 16px;
@@ -37,25 +88,49 @@ footer {
   justify-content: center;
 }
 
-.loginButton {
+.noStyleLink {
   text-decoration: none;
   color: inherit;
   background-image: none;
-  padding: 16px;
   text-shadow: none;
+}
+
+.loginButton {
+  margin-bottom: 16px;
+}
+
+.button {
+  cursor: pointer;
+  padding: 16px;
   background-color: hsl(47, 88%, 87%);
   transition: background-color 0.3s ease-in-out;
 
   border-radius: 6px;
   border: solid 1px hsla(0, 0%, 0%, 0.2);
-  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.24), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-  margin-bottom: 16px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.24), 0 3px 4px 0 rgba(0, 0, 0, 0.12);
 }
 
-.loginButton:hover {
+.button:hover {
   background-color: hsl(47, 88%, 83%);
 }
 
 .footerText {
   text-align: center;
+}
+
+.buttonIcon {
+  margin: 0px 8px;
+}
+
+.icon {
+  margin: 8px;
+  width: 24px;
+  height: 24px;
+}
+
+.seedIcon {
+  align-self: center;
+  color: #b5c352;
+  width: 32px;
+  height: 32px;
 }

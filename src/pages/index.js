@@ -19,14 +19,10 @@ const IndexPage = () => (
           collected for tap entries will be recorded.
         </p>
       </div>
-      <Link className={"loginButton"} to="/login/">
+      <Link className={"button loginButton noStyleLink"} to="/login/">
         Continue to Login
       </Link>
     </div>
-    <footer>
-      <hr className={"divider"} />
-      <p className="footerText">Created By CSCI 4169 Group 11</p>
-    </footer>
   </Layout>
 )
 

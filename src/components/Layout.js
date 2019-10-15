@@ -1,3 +1,19 @@
-import React from "react"
+import React, { Fragment } from "react"
+//Icons
+import { FaSeedling } from "react-icons/fa"
+//Styles
 import "./Layout.css"
-export default ({ children }) => <div>{children}</div>
+import classNames from "classnames"
+
+export default ({ children }) => (
+  <Fragment>
+    <div>{children}</div>{" "}
+    <footer>
+      <hr className={"divider"} />
+      <FaSeedling className={classNames("icon", "seedIcon")} />
+      <p className="footerText">
+        <strong>Created By CSCI 4169 Group 11</strong>
+      </p>
+    </footer>
+  </Fragment>
+)

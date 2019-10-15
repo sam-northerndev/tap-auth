@@ -1,5 +1,5 @@
 import Typography from "typography"
-import lincoln from "typography-theme-lincoln"
-const typography = new Typography(lincoln)
+import stAnnes from "typography-theme-st-annes"
+const typography = new Typography(stAnnes)
 export const { scale, rhythm, options } = typography
 export default typography

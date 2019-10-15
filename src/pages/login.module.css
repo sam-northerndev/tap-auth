@@ -1,0 +1,83 @@
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.labelContainer {
+  width: 100px;
+}
+
+.labelText {
+  margin-right: 8px;
+}
+
+.seperatorText {
+  margin: 24px 0px;
+}
+
+.loginCard {
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  min-width: 200px;
+  padding: 16px;
+}
+
+.infoContainer {
+  flex-grow: 1;
+  max-width: 75%;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginOrBack {
+  width: 125px;
+  margin: 8px;
+}
+
+.buttonContainer {
+  justify-content: center;
+  display: flex;
+  margin-top: 24px;
+}
+
+.loginID {
+  cursor: pointer;
+  color: darkgreen;
+  opacity: 0.7;
+  animation: pulse 2s infinite;
+}
+
+.loginID:hover {
+  opacity: 1;
+  animation: none;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
