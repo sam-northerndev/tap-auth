@@ -62,15 +62,18 @@ class TapAuth extends React.Component {
         >
           <div className={styles.canvasContent}>
             {collected ? (
-              <Link
-                to="/"
-                className={classnames("noStyleLink", styles.returnHome)}
-              >
-                <Home
-                  className={classnames(styles.canvasIcon, styles.homeIcon)}
-                />
-                <h1 className={styles.timer}>Return Home</h1>
-              </Link>
+              <Fragment>
+                <Link
+                  to="/"
+                  className={classnames("noStyleLink", styles.returnHome)}
+                >
+                  <Home
+                    className={classnames(styles.canvasIcon, styles.homeIcon)}
+                  />
+                  <h1 className={styles.timer}>Return Home</h1>
+                </Link>
+                <p>Thank you for participating in our study</p>
+              </Fragment>
             ) : (
               <TouchIcon className={styles.canvasIcon} />
             )}

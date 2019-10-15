@@ -65,27 +65,3 @@
   display: flex;
   margin-top: 24px;
 }
-
-.loginID {
-  cursor: pointer;
-  color: darkgreen;
-  opacity: 0.7;
-  animation: pulse 2s infinite;
-}
-
-.loginID:hover {
-  opacity: 1;
-  animation: none;
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.7;
-  }
-}

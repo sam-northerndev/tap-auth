@@ -12,7 +12,7 @@
   box-shadow: 0 0 0 rgba(204, 169, 44, 0.4);
   animation: pulse 2s infinite;
 
-  /* disable text slection in the canvas */
+  /* disable text selection in the canvas */
   touch-action: manipulation;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Chrome 6.0+, Safari 3.1+, Edge & Opera 15+ */

@@ -20,3 +20,8 @@
 .list {
   text-align: initial;
 }
+
+.patternContainer {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}

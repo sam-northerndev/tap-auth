@@ -164,7 +164,7 @@ class Login extends React.Component {
           {loginID >= 1 && (
             <div>
               <h3>
-                Your ID: <span className={styles.loginID}>{loginID}</span>
+                Your ID: <span className={"loginID"}>{loginID}</span>
               </h3>
               <br></br>
               <p>
