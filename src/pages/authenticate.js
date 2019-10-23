@@ -30,7 +30,9 @@ class Authenticate extends React.Component {
   }
 
   componentWillMount() {
-    const isUser = localStorage.getItem("user")
+    const isUser;
+    if (typeof window !== 'undefined') let isUser = localStorage.getItem("user")
+    
     if (isUser) {
       //Check if they have chosen an auth method
     } else {
