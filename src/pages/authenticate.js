@@ -1,5 +1,6 @@
 import React, { Fragment } from "react"
 import classNames from "classnames"
+import { navigate } from "gatsby"
 
 // Components
 import Header from "../components/Header"
@@ -27,6 +28,16 @@ class Authenticate extends React.Component {
       selectedPattern: null,
     }
   }
+
+  componentWillMount() {
+    const isUser = localStorage.getItem("user")
+    if (isUser) {
+      //Check if they have chosen an auth method
+    } else {
+      navigate("/login")
+    }
+  }
+
   //On Click Handlers
   onClickA = () => this.setState({ routeA: true })
   onClickB = () => this.setState({ routeB: true })

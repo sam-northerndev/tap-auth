@@ -65,3 +65,8 @@
   display: flex;
   margin-top: 24px;
 }
+
+.errorText {
+  color: red;
+  margin-top: 24px;
+}

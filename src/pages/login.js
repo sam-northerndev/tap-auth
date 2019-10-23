@@ -2,6 +2,8 @@ import React, { Fragment } from "react"
 import classNames from "classnames"
 import { navigate } from "gatsby"
 
+import database from "../utils/firebase"
+
 //Icons
 import {
   FaSignInAlt,
@@ -28,6 +30,13 @@ class Login extends React.Component {
       studentID: "",
       loginID: "",
     }
+
+    console.log(
+      database
+        .ref("users")
+        .once("value")
+        .then(snapshot => console.log(snapshot.hasChild("1234532aa")))
+    )
   }
 
   // OnClick event handlers
@@ -35,14 +44,68 @@ class Login extends React.Component {
 
   onClickRegister = () => this.setState({ setRegister: true, setLogin: false })
 
-  onReset = () => this.setState({ setRegister: false, setLogin: false })
+  onReset = () =>
+    this.setState({ setRegister: false, setLogin: false, error: "" })
 
   onLogin = event => {
     event.preventDefault()
     //Handle the login logic
+    const loginString = this.state.loginID.toString()
+    // Check if the id already exists
+    database
+      .ref("users")
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.hasChild(loginString)
 
-    // Navigate
-    navigate("/authenticate")
+        if (exists) {
+          //store user session in local storage
+          localStorage.setItem("user", loginString)
+          // Navigate
+          navigate("/authenticate")
+        } else {
+          // The ID does not exist, print error message
+          this.setState({
+            error: "You have not created an account, please register.",
+          })
+        }
+      })
+  }
+
+  onRegister = event => {
+    event.preventDefault()
+    // Handle registration logic
+
+    const loginString = this.state.loginID.toString()
+    // Check if the id already exists
+    database
+      .ref("users")
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.hasChild(loginString)
+
+        if (!exists) {
+          // write the id to the database, handle login logic
+          database
+            .ref("users/" + loginString)
+            .set({ registered: true, auth: false }, error => {
+              if (error) {
+                console.log("Error Registering" + error)
+              } else {
+                //store user session in local storage
+                localStorage.setItem("user", loginString)
+                // Navigate
+                navigate("/authenticate")
+              }
+            })
+        } else {
+          // The ID exists print error message
+          this.setState({
+            error:
+              "You have already created an account, please proceed to login.",
+          })
+        }
+      })
   }
 
   //Input Handlers
@@ -64,7 +127,14 @@ class Login extends React.Component {
   }
 
   render() {
-    const { setRegister, setLogin, loginID, netID, studentID } = this.state
+    const {
+      setRegister,
+      setLogin,
+      loginID,
+      netID,
+      studentID,
+      error,
+    } = this.state
 
     const chooseRoute = (
       <Fragment>
@@ -99,6 +169,11 @@ class Login extends React.Component {
               name="id"
             />
           </label>
+          {error && (
+            <h4 className={styles.errorText} style={{ marginTop: "0px" }}>
+              {error}
+            </h4>
+          )}
           <div className={styles.buttonContainer}>
             <button
               onClick={this.onReset}
@@ -128,7 +203,7 @@ class Login extends React.Component {
     const register = (
       <Fragment>
         <h3 className={styles.seperatorText}>Lets generate your unique ID</h3>
-        <form className={styles.form} onSubmit={this.onLogin}>
+        <form className={styles.form} onSubmit={this.onRegister}>
           <label className={styles.label}>
             <div className={styles.labelContainer}>
               <span className={styles.labelText}>Net ID</span>
@@ -173,7 +248,7 @@ class Login extends React.Component {
               </p>
             </div>
           )}
-
+          {error && <h4 className={styles.errorText}>{error}</h4>}
           <div className={styles.buttonContainer}>
             <button
               onClick={this.onReset}
