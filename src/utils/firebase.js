@@ -1,5 +1,4 @@
 import firebase from "firebase"
-import "firebase/firebase-database"
 
 const config = {
   apiKey: process.env.GATSBY_API_KEY,
