@@ -233,7 +233,9 @@ class Login extends React.Component {
       <Fragment>
         <h3 className={styles.seperatorText}>
           You're logged in as user{" "}
-          <span className={"loginID"}>{localStorage.getItem("user")}</span>
+          <span className={"loginID"}>
+            {typeof window !== "undefined" && localStorage.getItem("user")}
+          </span>
         </h3>
         <div className={styles.loggedButtonContainer}>
           <button
