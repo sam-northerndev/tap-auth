@@ -38,7 +38,7 @@ class Authenticate extends React.Component {
 
     if (isUser) {
       //Check if they have chosen an auth method
-    } else {
+    } else if (typeof window !== "undefined") {
       navigate("/login")
     }
   }
