@@ -43,12 +43,10 @@ class Authenticate extends React.Component {
     } else if (typeof window !== "undefined") {
       navigate("/login")
     }
-  }
 
-  componentWillMount() {
     // Check if user has an auth method chosen
     database
-      .ref("users/" + localStorage.getItem("user"))
+      .ref("users/" + isUser)
       .once("value")
       .then(snapshot => {
         const method = snapshot.val().method

@@ -53,7 +53,7 @@ class TapAuth extends React.Component {
     // TO-DO STORE TOUCH EVENTS HERE
     database
       .ref("users/" + localStorage.getItem("user"))
-      .set({ method: "A" }, error => {
+      .update({ method: "A" }, error => {
         if (error) {
           console.log("Error setting auth method" + error)
         }
