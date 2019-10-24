@@ -1,5 +1,6 @@
 import React, { Fragment } from "react"
-import { navigate, Link } from "gatsby"
+import { Link } from "gatsby"
+import database from "../utils/firebase"
 
 //Components
 import Header from "./Header"
@@ -47,7 +48,19 @@ class TapAuth extends React.Component {
     startTimer()
   }
 
-  onComplete = () => this.setState({ collected: true })
+  onComplete = () => {
+    //Register user with auth A method
+    // TO-DO STORE TOUCH EVENTS HERE
+    database
+      .ref("users/" + localStorage.getItem("user"))
+      .set({ method: "A" }, error => {
+        if (error) {
+          console.log("Error setting auth method" + error)
+        }
+      })
+
+    this.setState({ collected: true })
+  }
 
   render() {
     const { collecting, collected, displayTimer, timer } = this.state

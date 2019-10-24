@@ -67,7 +67,14 @@ class Login extends React.Component {
   }
 
   onReset = () =>
-    this.setState({ setRegister: false, setLogin: false, error: "" })
+    this.setState({
+      setRegister: false,
+      setLogin: false,
+      error: "",
+      loginId: "",
+      netID: "",
+      studentID: "",
+    })
 
   onLogin = event => {
     event.preventDefault()
@@ -110,7 +117,7 @@ class Login extends React.Component {
           // write the id to the database, handle login logic
           database
             .ref("users/" + loginString)
-            .set({ registered: true, auth: false }, error => {
+            .set({ registered: true, auth: false, method: "none" }, error => {
               if (error) {
                 console.log("Error Registering" + error)
               } else {

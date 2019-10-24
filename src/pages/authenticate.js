@@ -15,6 +15,7 @@ import styles from "./authenticate.module.css"
 
 // Import Pattern Data
 import Patterns from "../utils/patterns"
+import database from "../utils/firebase"
 
 class Authenticate extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class Authenticate extends React.Component {
     this.state = {
       routeA: false,
       routeB: false,
+      hasRegistered: false,
       authenticating: false,
       selectVibPattern: false,
       selectedPattern: null,
@@ -41,6 +43,24 @@ class Authenticate extends React.Component {
     } else if (typeof window !== "undefined") {
       navigate("/login")
     }
+  }
+
+  componentWillMount() {
+    // Check if user has an auth method chosen
+    database
+      .ref("users/" + localStorage.getItem("user"))
+      .once("value")
+      .then(snapshot => {
+        const method = snapshot.val().method
+        switch (method) {
+          case "A":
+            this.setState({ routeA: true })
+            break
+          case "B":
+            this.setState({ routeB: true })
+            break
+        }
+      })
   }
 
   //On Click Handlers
