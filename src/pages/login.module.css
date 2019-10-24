@@ -66,6 +66,29 @@
   margin-top: 24px;
 }
 
+.loggedButtonContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoutButton {
+  background-color: hsl(0, 68%, 42%);
+  color: white;
+}
+
+.logoutButton:hover {
+  background-color: hsl(0, 68%, 50%);
+}
+
+.authButton {
+  color: white;
+  background-color: hsl(120, 100%, 30%);
+}
+
+.authButton:hover {
+  background-color: hsl(120, 100%, 35%);
+}
+
 .errorText {
   color: red;
   margin-top: 24px;

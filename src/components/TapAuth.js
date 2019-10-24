@@ -7,8 +7,8 @@ import {
   FaHourglassStart as Start,
   FaHourglass as End,
   FaHome as Home,
+  FaFingerprint as TouchIcon,
 } from "react-icons/fa"
-import { FaFingerprint as TouchIcon } from "react-icons/fa"
 
 import styles from "./TapAuth.module.css"
 import classnames from "classnames"

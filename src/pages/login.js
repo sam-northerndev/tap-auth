@@ -10,7 +10,10 @@ import {
   FaFileSignature,
   FaArrowAltCircleLeft as Return,
   FaArrowAltCircleRight as Forward,
+  FaFingerprint as TouchIcon,
 } from "react-icons/fa"
+
+import { MdExitToApp as Logout } from "react-icons/md"
 
 //Components
 import Header from "../components/Header"
@@ -30,19 +33,38 @@ class Login extends React.Component {
       studentID: "",
       loginID: "",
     }
+  }
 
-    console.log(
-      database
-        .ref("users")
-        .once("value")
-        .then(snapshot => console.log(snapshot.hasChild("1234532aa")))
-    )
+  componentDidMount() {
+    // Get the currently logged in user
+    let isUser
+    if (typeof window !== "undefined") {
+      isUser = localStorage.getItem("user")
+    }
+
+    if (isUser) {
+      this.setState({ isLoggedIn: true })
+    }
   }
 
   // OnClick event handlers
   onClickLogin = () => this.setState({ setLogin: true, setRegister: false })
 
   onClickRegister = () => this.setState({ setRegister: true, setLogin: false })
+
+  onLogout = () => {
+    if (localStorage.getItem("user")) {
+      localStorage.removeItem("user")
+      this.setState({
+        setRegister: false,
+        setLogin: false,
+        isLoggedIn: false,
+        netID: "",
+        studentID: "",
+        loginID: "",
+      })
+    }
+  }
 
   onReset = () =>
     this.setState({ setRegister: false, setLogin: false, error: "" })
@@ -108,6 +130,12 @@ class Login extends React.Component {
       })
   }
 
+  navIfAuth = () => {
+    if (localStorage.getItem("user")) {
+      navigate("/authenticate")
+    }
+  }
+
   //Input Handlers
   handleLoginIDChange = event => this.setState({ loginID: event.target.value })
 
@@ -134,6 +162,7 @@ class Login extends React.Component {
       netID,
       studentID,
       error,
+      isLoggedIn,
     } = this.state
 
     const chooseRoute = (
@@ -197,6 +226,39 @@ class Login extends React.Component {
             </button>
           </div>
         </form>
+      </Fragment>
+    )
+
+    const logged = (
+      <Fragment>
+        <h3 className={styles.seperatorText}>
+          You're logged in as user{" "}
+          <span className={"loginID"}>{localStorage.getItem("user")}</span>
+        </h3>
+        <div className={styles.loggedButtonContainer}>
+          <button
+            onClick={this.onLogout}
+            className={classNames(
+              "button",
+              styles.loginOrBack,
+              styles.loginButton,
+              styles.logoutButton
+            )}
+          >
+            <Logout className={"buttonIcon"} /> Logout
+          </button>
+          <button
+            onClick={this.navIfAuth}
+            className={classNames(
+              "button",
+              styles.loginOrBack,
+              styles.loginButton,
+              styles.authButton
+            )}
+          >
+            Auth <TouchIcon className={"buttonIcon"} />
+          </button>
+        </div>
       </Fragment>
     )
 
@@ -279,12 +341,26 @@ class Login extends React.Component {
       <Layout>
         <Header
           collapsed
-          title={setRegister ? "Register" : setLogin ? "Login" : "Sign Up"}
+          title={
+            isLoggedIn
+              ? "Your Info"
+              : setRegister
+              ? "Register"
+              : setLogin
+              ? "Login"
+              : "Sign Up"
+          }
         />
         <div className={styles.loginContainer}>
           <div className={classNames("card", styles.loginCard)}>
             <div className={styles.infoContainer}>
-              {setRegister ? register : setLogin ? login : chooseRoute}
+              {isLoggedIn
+                ? logged
+                : setRegister
+                ? register
+                : setLogin
+                ? login
+                : chooseRoute}
             </div>
           </div>
         </div>
