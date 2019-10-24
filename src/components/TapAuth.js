@@ -23,6 +23,46 @@ class TapAuth extends React.Component {
       timer: 3,
       displayTimer: false,
     }
+
+    // CLass Variables
+    this.ONGOING_TOUCH = null
+    this.TAPS = []
+    this.TIME_SINCE_TOUCH = null
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const canvas = document.getElementById("canvas")
+    //Add event listeners to canvas
+    if (this.state.collecting && !prevState.collecting) {
+      canvas.addEventListener("touchstart", this.handleStart, false)
+      canvas.addEventListener("touchend", this.handleEnd, false)
+    } else if (!this.state.collecting && prevState.collecting) {
+      canvas.removeEventListener("touchstart", this.handleStart)
+      canvas.removeEventListener("touchend", this.handleEnd)
+    }
+  }
+
+  handleStart = event => {
+    event.stopPropagation()
+    // overwrite the ongoing touch event
+    // Capture time since last tapped before overwritting ongoing touch
+    if (this.ONGOING_TOUCH)
+      this.TIME_SINCE_TOUCH = event.timeStamp - this.ONGOING_TOUCH.timeStamp
+    this.ONGOING_TOUCH = event
+  }
+
+  handleEnd = event => {
+    event.stopPropagation()
+    // get the time of the event
+    const timeElapsed = event.timeStamp - this.ONGOING_TOUCH.timeStamp
+
+    this.TAPS.push({
+      event,
+      timeElapsed,
+      timeSinceLastTap: this.TIME_SINCE_TOUCH,
+    })
+
+    console.log(this.TAPS)
   }
 
   onStart = () => {
@@ -48,14 +88,48 @@ class TapAuth extends React.Component {
     startTimer()
   }
 
-  onComplete = () => {
+  onComplete = event => {
+    event.stopPropagation()
+
     //Register user with auth A method
-    // TO-DO STORE TOUCH EVENTS HERE
+
+    // Pop the last element off the array
+    if (this.TAPS.length > 1) this.TAPS.pop()
+
+    // The total time is calculated from the first tap to the last tap
+    const totalTime =
+      this.TAPS.length !== 1
+        ? this.TAPS[this.TAPS.length - 1].event.timeStamp -
+          this.TAPS[0].event.timeStamp
+        : this.TAPS[0].timeElapsed
+
+    const taps = {
+      totalTime,
+      TAPS: this.TAPS,
+    }
+
+    // CHECK if the master tap has been created
     database
       .ref("users/" + localStorage.getItem("user"))
-      .update({ method: "A" }, error => {
-        if (error) {
-          console.log("Error setting auth method" + error)
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.hasChild("masterTap")
+        if (!exists) {
+          database
+            .ref("users/" + localStorage.getItem("user"))
+            .update({ method: "A", auth: true, masterTap: taps }, error => {
+              if (error) {
+                console.log("Error setting auth method" + error)
+              }
+            })
+        } else {
+          database
+            .ref("users/" + localStorage.getItem("user") + "/tapAttempts")
+            .push(taps, error => {
+              if (error) {
+                console.log("Error setting auth method" + error)
+              }
+            })
         }
       })
 
@@ -68,6 +142,7 @@ class TapAuth extends React.Component {
       <div>
         {!collecting && <Header collapsed />}
         <div
+          id="canvas"
           className={classnames(
             styles.touchCanvas,
             collecting && styles.fullPageCanvas

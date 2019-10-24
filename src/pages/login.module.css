@@ -72,12 +72,14 @@
 }
 
 .logoutButton {
-  background-color: hsl(0, 68%, 42%);
-  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
 }
 
 .logoutButton:hover {
-  background-color: hsl(0, 68%, 50%);
+  opacity: 1;
 }
 
 .authButton {
@@ -87,6 +89,18 @@
 
 .authButton:hover {
   background-color: hsl(120, 100%, 35%);
+}
+
+.resetButton {
+  background-color: hsl(0, 68%, 42%);
+  color: white;
+}
+.resetButton:hover {
+  background-color: hsl(0, 68%, 50%);
+}
+
+.authOrWipeContainer {
+  display: flex;
 }
 
 .errorText {

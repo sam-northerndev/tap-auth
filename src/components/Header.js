@@ -7,7 +7,7 @@ import classNames from "classnames"
 
 import logo from "../images/logo.png"
 
-const Header = ({ collapsed, title }) => (
+const Header = ({ collapsed, title, logoutButton }) => (
   <Fragment>
     <div className={styles.container}>
       {!collapsed ? (
@@ -17,16 +17,23 @@ const Header = ({ collapsed, title }) => (
         </div>
       ) : (
         <div className={styles.collapsedContainer}>
-          <Link className={classNames("noStyleLink")} to="/">
+          <Link
+            style={logoutButton ? { marginRight: "11px" } : {}}
+            className={classNames("noStyleLink")}
+            to="/"
+          >
             <img
               alt="Return Home"
               src={logo}
               className={classNames(styles.logo, styles.collapsedLogo)}
             />
           </Link>
-          <h1 className={classNames(styles.title, styles.collapsedTitle)}>
-            Tap Auth
-          </h1>
+          <div className={logoutButton ? styles.headerContainer : ""}>
+            <h1 className={classNames(styles.title, styles.collapsedTitle)}>
+              Tap Auth
+            </h1>
+            {logoutButton && logoutButton}
+          </div>
         </div>
       )}
     </div>

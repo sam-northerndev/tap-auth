@@ -50,12 +50,19 @@ class Authenticate extends React.Component {
       .once("value")
       .then(snapshot => {
         const method = snapshot.val().method
+        const masterTap = snapshot.val().masterTap
+
+        if (masterTap || {}.TAPS || [].length !== 0) {
+          this.setState({ hasSetPassword: true })
+        }
         switch (method) {
           case "A":
             this.setState({ routeA: true })
             break
           case "B":
             this.setState({ routeB: true })
+            break
+          default:
             break
         }
       })
@@ -92,6 +99,7 @@ class Authenticate extends React.Component {
       authenticating,
       selectVibPattern,
       selectedPattern,
+      hasSetPassword,
     } = this.state
 
     const chooseRoute = (
@@ -119,7 +127,11 @@ class Authenticate extends React.Component {
 
     const tap = (
       <div className={styles.authContainer}>
-        <h3 className={styles.seperatorText}>Lets create your password</h3>
+        <h3 className={styles.seperatorText}>
+          {hasSetPassword
+            ? "You've set your password, please attempt to re-enter"
+            : "Lets create your password"}
+        </h3>
         <ul className={styles.list}>
           <li>Your password will be based on a series of taps</li>
           <li>The taps must be recorded in the highlighted square</li>

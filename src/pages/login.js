@@ -13,7 +13,7 @@ import {
   FaFingerprint as TouchIcon,
 } from "react-icons/fa"
 
-import { MdExitToApp as Logout } from "react-icons/md"
+import { MdExitToApp as Logout, MdDeleteForever as Clear } from "react-icons/md"
 
 //Components
 import Header from "../components/Header"
@@ -52,6 +52,21 @@ class Login extends React.Component {
 
   onClickRegister = () => this.setState({ setRegister: true, setLogin: false })
 
+  onClearPassword = () => {
+    if (
+      window.confirm(
+        "WARNING: This will wipe your current password and attempts, are you sure?"
+      )
+    ) {
+      database.ref("users/" + localStorage.getItem("user")).update({
+        method: "none",
+        masterTap: null,
+        tapAttempts: null,
+        auth: false,
+      })
+    }
+  }
+
   onLogout = () => {
     if (localStorage.getItem("user")) {
       localStorage.removeItem("user")
@@ -71,7 +86,7 @@ class Login extends React.Component {
       setRegister: false,
       setLogin: false,
       error: "",
-      loginId: "",
+      loginID: "",
       netID: "",
       studentID: "",
     })
@@ -212,6 +227,7 @@ class Login extends React.Component {
           )}
           <div className={styles.buttonContainer}>
             <button
+              type="button"
               onClick={this.onReset}
               className={classNames(
                 "button",
@@ -246,17 +262,6 @@ class Login extends React.Component {
         </h3>
         <div className={styles.loggedButtonContainer}>
           <button
-            onClick={this.onLogout}
-            className={classNames(
-              "button",
-              styles.loginOrBack,
-              styles.loginButton,
-              styles.logoutButton
-            )}
-          >
-            <Logout className={"buttonIcon"} /> Logout
-          </button>
-          <button
             onClick={this.navIfAuth}
             className={classNames(
               "button",
@@ -266,6 +271,17 @@ class Login extends React.Component {
             )}
           >
             Auth <TouchIcon className={"buttonIcon"} />
+          </button>
+          <button
+            onClick={this.onClearPassword}
+            className={classNames(
+              "button",
+              styles.loginOrBack,
+              styles.loginButton,
+              styles.resetButton
+            )}
+          >
+            Reset <Clear className={"buttonIcon"} />
           </button>
         </div>
       </Fragment>
@@ -358,6 +374,13 @@ class Login extends React.Component {
               : setLogin
               ? "Login"
               : "Sign Up"
+          }
+          logoutButton={
+            isLoggedIn && (
+              <h3 onClick={this.onLogout} className={styles.logoutButton}>
+                Logout <Logout className={"buttonIcon"} />
+              </h3>
+            )
           }
         />
         <div className={styles.loginContainer}>
