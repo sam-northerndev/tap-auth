@@ -165,7 +165,7 @@ class Authenticate extends React.Component {
             onClick={this.onStart}
             className={classNames("button", styles.optionButton)}
           >
-            <VibrationIcon className={"icon"} /> Proceed
+            <TouchIcon className={"icon"} /> Proceed
           </button>
         </Fragment>
       </div>

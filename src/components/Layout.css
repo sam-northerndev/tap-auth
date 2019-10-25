@@ -100,6 +100,7 @@ end input styling --------------
 }
 
 .button {
+  outline: none;
   cursor: pointer;
   padding: 16px;
   background-color: hsl(47, 88%, 87%);
