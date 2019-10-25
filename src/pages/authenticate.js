@@ -72,12 +72,7 @@ class Authenticate extends React.Component {
   onClickA = () => this.setState({ routeA: true })
   onClickB = () => this.setState({ routeB: true })
 
-  // On Start Auth Methods
-  onStartTap = () => {
-    this.setState({ authenticating: true })
-  }
-
-  onStartVib = () => {
+  onStart = () => {
     this.setState({ authenticating: true })
   }
 
@@ -140,7 +135,7 @@ class Authenticate extends React.Component {
         </ul>
         <button
           style={{ marginTop: "0px" }}
-          onClick={this.onStartTap}
+          onClick={this.onStart}
           className={classNames("button", styles.optionButton)}
         >
           <TouchIcon className={"icon"} /> Proceed
@@ -150,81 +145,29 @@ class Authenticate extends React.Component {
 
     const vib = (
       <div className={styles.authContainer}>
-        {selectVibPattern ? (
-          <Fragment>
-            <h3 className={styles.seperatorText}>Select a vibration pattern</h3>
-            <button
-              style={{ marginTop: "0px" }}
-              onClick={() => {
-                this.onSelectVibPattern(Patterns.pattern1)
-              }}
-              className={classNames("button", styles.optionButton)}
-            >
-              <VibrationIcon className={"icon"} /> Pattern 1
-            </button>
-            <button
-              style={{ marginTop: "0px" }}
-              onClick={() => {
-                this.onSelectVibPattern(Patterns.pattern2)
-              }}
-              className={classNames("button", styles.optionButton)}
-            >
-              <VibrationIcon className={"icon"} /> Pattern 2
-            </button>
-            <button
-              style={{ marginTop: "0px" }}
-              onClick={() => {
-                this.onSelectVibPattern(Patterns.pattern3)
-              }}
-              className={classNames("button", styles.optionButton)}
-            >
-              <VibrationIcon className={"icon"} /> Pattern 3
-            </button>
-            {selectedPattern && (
-              <Fragment>
-                <div className={styles.patternContainer}>
-                  <h3>
-                    Chosen Pattern:{" "}
-                    <span className={"loginID"}>{selectedPattern}</span>
-                  </h3>
-                  <br></br>
-                  <p>
-                    This vibration pattern will be used for all future login
-                    attempts
-                  </p>
-                </div>
-                <button
-                  style={{ marginTop: "0px" }}
-                  onClick={this.onStartVib}
-                  className={classNames("button", styles.optionButton)}
-                >
-                  <TouchIcon className={"icon"} /> Proceed
-                </button>
-              </Fragment>
-            )}
-          </Fragment>
-        ) : (
-          <Fragment>
-            <h3 className={styles.seperatorText}>Lets create your password</h3>
-            <ul className={styles.list}>
-              <li>Your password will be based on a series of taps</li>
-              <li>You will select a vibration pattern</li>
-              <li>
-                The vibration pattern will play and you can choose where to
-                place your taps
-              </li>
-              <li>The taps must be recorded in the highlighted square</li>
-              <li>When you are finished tap the complete button</li>
-            </ul>
-            <button
-              style={{ marginTop: "0px" }}
-              onClick={this.onSelectVibPattern}
-              className={classNames("button", styles.optionButton)}
-            >
-              <VibrationIcon className={"icon"} /> Select Pattern
-            </button>
-          </Fragment>
-        )}
+        <Fragment>
+          <h3 className={styles.seperatorText}>
+            {hasSetPassword
+              ? "You've set your password, please attempt to re-enter"
+              : "Lets create your password"}
+          </h3>
+          <ul className={styles.list}>
+            <li>Your password will be based on a series of taps</li>
+            <li>
+              When you start a tap, the phone will vibrate to signal you are
+              recording a tap entry
+            </li>
+            <li>The taps must be recorded in the highlighted square</li>
+            <li>When you are finished tap the complete button</li>
+          </ul>
+          <button
+            style={{ marginTop: "0px" }}
+            onClick={this.onStart}
+            className={classNames("button", styles.optionButton)}
+          >
+            <VibrationIcon className={"icon"} /> Proceed
+          </button>
+        </Fragment>
       </div>
     )
 
@@ -235,9 +178,9 @@ class Authenticate extends React.Component {
         )}
         {authenticating ? (
           routeA ? (
-            <TapAuth />
+            <TapAuth method="A" />
           ) : (
-            <div>Option B</div>
+            <TapAuth method="B" />
           )
         ) : (
           <div className={classNames("card")}>

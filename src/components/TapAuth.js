@@ -44,25 +44,28 @@ class TapAuth extends React.Component {
 
   handleStart = event => {
     event.stopPropagation()
+    if (this.props.method === "B") navigator.vibrate(100000)
     // overwrite the ongoing touch event
     // Capture time since last tapped before overwritting ongoing touch
     if (this.ONGOING_TOUCH)
       this.TIME_SINCE_TOUCH = event.timeStamp - this.ONGOING_TOUCH.timeStamp
+
     this.ONGOING_TOUCH = event
   }
 
   handleEnd = event => {
     event.stopPropagation()
+    if (this.props.method === "B") navigator.vibrate(0)
     // get the time of the event
     const timeElapsed = event.timeStamp - this.ONGOING_TOUCH.timeStamp
 
     this.TAPS.push({
       event,
       timeElapsed,
-      timeSinceLastTap: this.TIME_SINCE_TOUCH,
+      timeSinceLastTap: this.TIME_SINCE_TOUCH
+        ? this.TIME_SINCE_TOUCH - timeElapsed
+        : "Start",
     })
-
-    console.log(this.TAPS)
   }
 
   onStart = () => {
@@ -92,46 +95,54 @@ class TapAuth extends React.Component {
     event.stopPropagation()
 
     //Register user with auth A method
+    if (this.TAPS.length > 0) {
+      // Pop the last element off the array (it is the complete click)
+      if (this.TAPS.length > 1) this.TAPS.pop()
 
-    // Pop the last element off the array
-    if (this.TAPS.length > 1) this.TAPS.pop()
+      // The total time is calculated from the first tap to the last tap
+      const totalTime =
+        this.TAPS.length !== 1
+          ? this.TAPS[this.TAPS.length - 1].event.timeStamp -
+            this.TAPS[0].event.timeStamp
+          : this.TAPS[0].timeElapsed
 
-    // The total time is calculated from the first tap to the last tap
-    const totalTime =
-      this.TAPS.length !== 1
-        ? this.TAPS[this.TAPS.length - 1].event.timeStamp -
-          this.TAPS[0].event.timeStamp
-        : this.TAPS[0].timeElapsed
+      const taps = {
+        totalTime,
+        TAPS: this.TAPS,
+      }
 
-    const taps = {
-      totalTime,
-      TAPS: this.TAPS,
+      console.log(taps)
+
+      // CHECK if the master tap has been created
+      database
+        .ref("users/" + localStorage.getItem("user"))
+        .once("value")
+        .then(snapshot => {
+          const exists = snapshot.hasChild("masterTap")
+          if (!exists) {
+            database.ref("users/" + localStorage.getItem("user")).update(
+              {
+                method: this.props.method === "A" ? "A" : "B",
+                auth: true,
+                masterTap: taps,
+              },
+              error => {
+                if (error) {
+                  console.log("Error setting auth method" + error)
+                }
+              }
+            )
+          } else {
+            database
+              .ref("users/" + localStorage.getItem("user") + "/tapAttempts")
+              .push(taps, error => {
+                if (error) {
+                  console.log("Error setting auth method" + error)
+                }
+              })
+          }
+        })
     }
-
-    // CHECK if the master tap has been created
-    database
-      .ref("users/" + localStorage.getItem("user"))
-      .once("value")
-      .then(snapshot => {
-        const exists = snapshot.hasChild("masterTap")
-        if (!exists) {
-          database
-            .ref("users/" + localStorage.getItem("user"))
-            .update({ method: "A", auth: true, masterTap: taps }, error => {
-              if (error) {
-                console.log("Error setting auth method" + error)
-              }
-            })
-        } else {
-          database
-            .ref("users/" + localStorage.getItem("user") + "/tapAttempts")
-            .push(taps, error => {
-              if (error) {
-                console.log("Error setting auth method" + error)
-              }
-            })
-        }
-      })
 
     this.setState({ collected: true })
   }
