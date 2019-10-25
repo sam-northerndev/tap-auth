@@ -94,6 +94,8 @@ class TapAuth extends React.Component {
   onComplete = event => {
     event.stopPropagation()
 
+    console.log(event)
+
     //Register user with auth A method
     if (this.TAPS.length > 0) {
       // Pop the last element off the array (it is the complete click)

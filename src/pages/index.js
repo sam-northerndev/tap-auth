@@ -20,7 +20,11 @@ const IndexPage = () => (
         </p>
       </div>
       <Link className={"button loginButton noStyleLink"} to="/login/">
-        Continue to Login
+        {typeof window !== "undefined"
+          ? localStorage.getItem("user")
+            ? "Continue to Dashboard"
+            : "Continue to Login"
+          : "Continue to Login"}
       </Link>
     </div>
   </Layout>

@@ -290,6 +290,9 @@ class Login extends React.Component {
     const register = (
       <Fragment>
         <h3 className={styles.seperatorText}>Lets generate your unique ID</h3>
+        <h4 className={styles.descriptionText}>
+          Please enter <strong>only</strong> the last 6 integers
+        </h4>
         <form className={styles.form} onSubmit={this.onRegister}>
           <label className={styles.label}>
             <div className={styles.labelContainer}>
@@ -338,6 +341,7 @@ class Login extends React.Component {
           {error && <h4 className={styles.errorText}>{error}</h4>}
           <div className={styles.buttonContainer}>
             <button
+              type="button"
               onClick={this.onReset}
               className={classNames(
                 "button",
