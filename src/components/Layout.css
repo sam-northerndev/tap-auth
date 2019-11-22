@@ -1,6 +1,20 @@
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0px;
-  background-color: #feffff;
+  position: relative;
+}
+body::before {
+  content: "";
+  position: absolute;
+  background-image: url("../images/forest.jpg");
+  background-image: url("../images/forest.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: grayscale(100%);
 }
 
 footer {
@@ -65,7 +79,12 @@ end input styling --------------
 */
 
 .description {
+  font-weight: 700;
   margin-bottom: 16px;
+}
+
+.phoneLogo {
+  width: 150px;
 }
 
 .content {

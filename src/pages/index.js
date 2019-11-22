@@ -5,12 +5,14 @@ import Header from "../components/Header.js"
 import { Link } from "gatsby"
 //Styles
 
+import phone from "../images/phone.png"
+
 const IndexPage = () => (
   <Layout>
     <Header />
     <div className="content">
       <p className={"description"}>Authentication for the visually impaired.</p>
-
+      <img alt="phone" src={phone} className="phoneLogo" />
       <hr className={"divider"} />
       <div className={"card"}>
         <p>

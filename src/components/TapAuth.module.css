@@ -1,3 +1,15 @@
+.errorCanvas {
+  background-color: red !important;
+}
+
+.incorrect {
+  color: red !important;
+}
+
+.success {
+  color: green !important;
+}
+
 .touchCanvas {
   display: flex;
   flex-direction: column;
@@ -100,4 +112,11 @@
 
 .returnHome:hover {
   opacity: 1;
+}
+
+.startContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 32px !important;
+  width: 100%;
 }

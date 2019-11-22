@@ -171,7 +171,17 @@ class Login extends React.Component {
   calcID = () => {
     const { studentID, netID } = this.state
 
-    const loginID = studentID > netID ? studentID % netID : netID % studentID
+    console.log(studentID, netID)
+    //Then grab all numbers
+    let parsedNetID = netID.replace(/^\D+/g, "")
+
+    let parsedStudentID = studentID.replace(/^\D+/g, "")
+    console.log(parsedNetID, parsedStudentID)
+
+    const loginID =
+      parsedStudentID > parsedNetID
+        ? parsedStudentID % parsedNetID
+        : parsedNetID % parsedStudentID
 
     this.setState({ loginID })
   }
@@ -291,7 +301,7 @@ class Login extends React.Component {
       <Fragment>
         <h3 className={styles.seperatorText}>Lets generate your unique ID</h3>
         <h4 className={styles.descriptionText}>
-          Please enter <strong>only</strong> the last 6 integers
+          Please enter the last 6 digits or the full ID
         </h4>
         <form className={styles.form} onSubmit={this.onRegister}>
           <label className={styles.label}>
@@ -304,8 +314,7 @@ class Login extends React.Component {
               className={"tallInput"}
               required
               type="text"
-              pattern="\d*"
-              maxlength="6"
+              maxlength="8"
               minLength="6"
               name="id"
             />
@@ -320,8 +329,7 @@ class Login extends React.Component {
               className={"tallInput"}
               required
               type="text"
-              pattern="\d*"
-              maxlength="6"
+              maxlength="9"
               minLength="6"
             />
           </label>

@@ -13,7 +13,7 @@ export default ({ children, footer = true }) => (
         <hr className={"divider"} />
         <FaSeedling className={classNames("icon", "seedIcon")} />
         <p className="footerText">
-          <strong>Created By CSCI 4169 Group 11</strong>
+          <p>Created By CSCI 4169 Group 11</p>
         </p>
       </footer>
     )}

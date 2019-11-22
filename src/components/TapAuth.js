@@ -8,6 +8,8 @@ import {
   FaHourglassStart as Start,
   FaHourglass as End,
   FaHome as Home,
+  FaRegCheckCircle as Success,
+  FaRegWindowClose as Incorrect,
   FaFingerprint as TouchIcon,
 } from "react-icons/fa"
 
@@ -22,6 +24,7 @@ class TapAuth extends React.Component {
       collected: false,
       timer: 3,
       displayTimer: false,
+      correctAuth: true,
     }
 
     // CLass Variables
@@ -134,7 +137,45 @@ class TapAuth extends React.Component {
                 }
               }
             )
+            this.setState({ correctAuth: true })
           } else {
+            //Get the master tap data
+            database
+              .ref("users/" + localStorage.getItem("user"))
+              .once("value")
+              .then(snapshot => {
+                const masterTap = snapshot.val().masterTap
+
+                const masterTapLength = (masterTap.TAPS || []).length
+                const attemptTapLength = (taps.TAPS || []).length
+                const masterTotalTime = masterTap.totalTime
+                const attemptTotalTime = taps.totalTime
+
+                const absDiffTime = Math.abs(attemptTotalTime - masterTotalTime)
+                const absDiffTap = Math.abs(attemptTapLength - masterTapLength)
+
+                //Now using the tolerance check to see if the attempt was succesful
+                //Simple password check
+
+                if (
+                  masterTapLength <= 5 &&
+                  absDiffTap === 0 &&
+                  absDiffTime <= 571
+                ) {
+                  this.setState({ correctAuth: true })
+                } else if (
+                  //Complex password check
+                  masterTapLength > 5 &&
+                  absDiffTap <= 1 &&
+                  absDiffTime < 571
+                ) {
+                  this.setState({ correctAuth: true })
+                } else {
+                  this.setState({ correctAuth: false })
+                }
+              })
+
+            //Store the attempt in the database
             database
               .ref("users/" + localStorage.getItem("user") + "/tapAttempts")
               .push(taps, error => {
@@ -150,52 +191,97 @@ class TapAuth extends React.Component {
   }
 
   render() {
-    const { collecting, collected, displayTimer, timer } = this.state
+    const {
+      collecting,
+      collected,
+      displayTimer,
+      timer,
+      correctAuth,
+    } = this.state
+
     return (
       <div>
         {!collecting && <Header collapsed />}
         <div
           id="canvas"
           className={classnames(
+            collected && !correctAuth && styles.errorCanvas,
             styles.touchCanvas,
             collecting && styles.fullPageCanvas
           )}
         >
           <div className={styles.canvasContent}>
             {collected ? (
-              <Fragment>
+              <div className={classnames(styles.startContainer, "card")}>
                 <Link
-                  to="/"
+                  to="/login"
                   className={classnames("noStyleLink", styles.returnHome)}
                 >
-                  <Home
-                    className={classnames(styles.canvasIcon, styles.homeIcon)}
-                  />
-                  <h1 className={styles.timer}>Return Home</h1>
+                  {collected && !correctAuth ? (
+                    <Fragment>
+                      <Incorrect
+                        className={classnames(
+                          styles.canvasIcon,
+                          styles.homeIcon,
+                          styles.incorrect
+                        )}
+                      />
+                      <br></br>
+                      <h2>Your password attempt was unsuccesful, try again.</h2>
+                      <h1 className={styles.timer}>Return Home</h1>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      <Success
+                        className={classnames(
+                          styles.canvasIcon,
+                          styles.homeIcon,
+                          styles.success
+                        )}
+                      />
+                      <br></br>
+                      <h2>
+                        Congratulations you have successfully authenticated!
+                      </h2>
+                      <h1 className={styles.timer}>Return Home</h1>
+                    </Fragment>
+                  )}
                 </Link>
                 <p>Thank you for participating in our study</p>
-              </Fragment>
+              </div>
             ) : (
               <TouchIcon className={styles.canvasIcon} />
             )}
-            {displayTimer && <h1 className={styles.timer}>{timer}</h1>}
           </div>
           {!collected && (
-            <div className={styles.buttonContainer}>
-              <button
-                onClick={collecting ? this.onComplete : this.onStart}
-                className={classnames("button", styles.startButton)}
-              >
-                {collecting ? (
-                  <span className={styles.innerIcon}>
-                    <End className={"icon"} /> Complete
-                  </span>
-                ) : (
-                  <span className={styles.innerIcon}>
-                    <Start className={"icon"} /> Start
-                  </span>
-                )}
-              </button>
+            <div
+              className={
+                !collecting ? classnames(styles.startContainer, "card") : ""
+              }
+            >
+              {!collecting && !displayTimer && (
+                <h2>When you are ready to enter your password press:</h2>
+              )}
+
+              {displayTimer && <h1 className={styles.timer}>{timer}</h1>}
+              {!displayTimer && (
+                <div className={styles.buttonContainer}>
+                  <button
+                    onClick={collecting ? this.onComplete : this.onStart}
+                    className={classnames("button", styles.startButton)}
+                  >
+                    {collecting ? (
+                      <span className={styles.innerIcon}>
+                        <End className={"icon"} /> Complete
+                      </span>
+                    ) : (
+                      <span className={styles.innerIcon}>
+                        <Start className={"icon"} /> Start
+                      </span>
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
